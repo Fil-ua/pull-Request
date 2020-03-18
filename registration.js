@@ -36,7 +36,7 @@ function validate() {
 
     function isValidDate(year) {
         year = new Date().getFullYear() - new Date(year.replace(/\./g, `:`)).getFullYear();
-        return (10 < year && year < 80) ? true : false;
+        return 10 < year && year < 80;
     }
 
     let regEmail = /[0-9a-zа-я_A-ZА-Я]+@[0-9a-zа-я_A-ZА-Я^.]+\.[a-zа-яА-ЯA-Z]{2,4}/i,
