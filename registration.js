@@ -8,7 +8,7 @@ form_id.onsubmit = ()=> { return validate()};
 
 function validate() {
 
-    let objForm = {
+    const objForm = {
         SignupName,
         SignupSurname,
         SignupBirthday,
@@ -26,7 +26,7 @@ function validate() {
     function warning(x) {
         let warningNames = {
             name: `Некорректный ввод!`,
-            birthday: `10лет < Ваш возраст > 80лет`,
+            birthday: `не младше 10 и не старше 80 лет`,
             email: `Ошибка ввода Email-адреса!`,
             wrongSimbols: `Invalid Password!`,
             password: `Пароли не совпадают`
