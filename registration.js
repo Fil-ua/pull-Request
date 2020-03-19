@@ -2,7 +2,7 @@ form_id.onsubmit = ()=> { return validate()};
 
 function validate() {
 
-    let names = document.getElementById(`form_id`).getElementsByTagName(`input`);
+    let names = document.querySelectorAll('#form_id input');
     const objForm = [];
 
     for (let k = 0; k < names.length - 1; k++) {
