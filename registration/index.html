@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="visual.css">
+    <link rel="shortcut icon" href="../src/short_icon.png" type="image/png">
+</head>
+
+<body>
+
+<img class="displayed" src="../src/short_icon.png"/>
+<div class="css-form">
+    <p class="heading-with-line">Форма регистрации</p>
+    <div class="form">
+        <form id="form_id" action="" method="post">
+            <div class="form-block">
+                <label for="SignupName">Ваше Имя</label>
+                <input id="SignupName" type="text" name="sName">
+            </div>
+            <div class="form-block">
+                <label for="SignupSurname">Ваша Фамилия</label>
+                <input id="SignupSurname" type="text" name="sSurname">
+            </div>
+            <div class="form-block">
+                <label for="SignupBirthday">Дата рождения</label>
+                <input id="SignupBirthday" type="date" value="1940-01-01" name="sBirthday">
+            </div>
+            <div class="form-block">
+                <label for="SignupEmail">Ваш email (логин для входа)</label>
+                <input id="SignupEmail" type="email"  name="sEmail" placeholder="Пример - user@gmail.com">
+                <p class="validation">Проверьте правильность ввода email.</p>
+            </div>
+            <div class="form-block">
+                <label for="SignupPassword">Новый пароль</label>
+                <input id="SignupPassword" type="password" name="sPassword">
+                <p class="requirement">Пароль должен содержать от 6 символов.</p>
+            </div>
+            <div class="form-block">
+                <label for="SignupConfirmPassword">Подтверждение пароля</label>
+                <input id="SignupConfirmPassword" type="password" name="sConfirmPassword">
+            </div>
+            <div class="warning"></div>
+            <div class="form-block">
+                <input class="button" type="submit" value="Зарегистрироваться">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="registration.js"></script>
+</body>
+
+</html>
