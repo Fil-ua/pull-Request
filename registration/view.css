@@ -6,10 +6,15 @@ body{
     height: 100vh;
     background-image: url(../src/strawberry.jpg);
 }
-.spider{
-    width: 20%;
+.spider {
+    max-width: 20%;
     transform: scaleX(-1);
-    transition: 2s;
+    max-height: auto;
+    transition: max-width 200ms;
+}
+
+.spider:active {
+    max-width: 5%;
 }
 .hide {
     display: none;
@@ -30,12 +35,12 @@ body{
     border: 1px solid transparent;
     border-radius: 15px;
     max-width: 355px;
-    margin: 150px auto;
+    margin : auto;
 }
 .displayed {
-    display: none;
-    vertical-align: middle;
-    position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 120px;
     margin: auto;
     transition: 2s;
@@ -101,7 +106,7 @@ input {
             0 2px 3px rgba(0,0,0,.5) inset,
             0 1px 1px rgba(255,255,255,.1);
 }
-a {
+.link {
     cursor: pointer;
     padding: 3px;
     color: #000000;
