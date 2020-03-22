@@ -1,4 +1,4 @@
-document.querySelector(`#form_id`).addEventListener(`submit`, function (e) {
+document.querySelector(`#form_id`).addEventListener(`submit`, e => {
     e.preventDefault();
     if(validate()) {
         window.location.href = `start.html`;
