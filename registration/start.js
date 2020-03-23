@@ -1,7 +1,7 @@
 document.querySelector(`#form_id`).addEventListener(`submit`, e => {
     e.preventDefault();
     if(signIn()) {
-        let str = ["spider","css-form","spiderNetBotR","displayed"];
+        let str = ["spider-top","css-form","spiderNetBotR"];
         str.map(classes =>  document.querySelector(`.${classes}`).classList.add("hide"));
         document.querySelector('body').classList.add("strawberry");
     }
@@ -46,5 +46,6 @@ function signIn() {
             return !(document.getElementsByClassName(`warning`)[0].textContent = x);
         };
     warning(``);
+
 }
 

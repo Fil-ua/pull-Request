@@ -1,78 +1,88 @@
+html, body, .css-form {
+    height: 100%;
+}
+@media screen and (min-width: 320px) and (max-width:1080px) {
+    body {
+        background-image: url(../src/spaceMobile.jpg) ;
+        background-repeat: no-repeat;
+
+    }
+}
+@media screen and (min-width: 1081px) and (max-width:1920px){
+    body {
+        background-image: url(../src/spaceFHD.jpg);
+        background-repeat: repeat;
+    }
+}
+@media screen and (min-width: 1921px) and (max-width:3440px){
+    body {
+        background-image: url(../src/spaceUWHD.jpg);
+    }
+}
 body{
-    background-color: #c7c7c7;
     transition: 2s;
+    overflow: hidden;
+}
+.form-block label {
+    display: flex;
+    font-size: 20px;
+    justify-content: left;
 }
 .strawberry{
     height: 100vh;
     background-image: url(../src/strawberry.jpg);
 }
 .spider {
-    max-width: 20%;
+    position: absolute;
+    height: auto;
+    max-width: 40%;
     transform: scaleX(-1);
-    max-height: auto;
     transition: max-width 200ms;
 }
-
 .spider:active {
-    max-width: 5%;
+    max-width: 27%;
 }
 .hide {
-    display: none;
-}
-.spiderNetBotR{
-    width: 20%;
-    position:fixed;
-    right:0;
-    bottom:0;
-    transform: scaleY(-1);
-    transition: 2s;
+    display: none !important;
 }
 .css-form {
-    vertical-align: middle;
-    position: relative;
-    text-align: center;
-    background: #fff;
-    border: 1px solid transparent;
-    border-radius: 15px;
-    max-width: 355px;
-    margin : auto;
-}
-.displayed {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 120px;
-    margin: auto;
+    flex-direction: column;
+}
+.displayed {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     transition: 2s;
 }
+.displayed {
+    max-width:150px;
+    height: auto;
+}
 .form-block {
-    margin-top: 23px;
+    margin-top: 20px;
 }
 .heading-with-line {
-    padding-top: 20px;
-    padding-bottom: 11px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 5px;
     border-bottom: 1px solid #EBE7E1;
     font-size: 20px;
-    line-height: 24px;
-    font-weight: normal;
-    margin: 0;
 }
 .form {
     text-align: left;
-}
-label {
-    margin-left:23px;
-    font-size: 18px;
-    cursor: default;
+    padding: 10px 25px;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, .8);
 }
 input {
-    display: block;
-    width: 88%;
+    width: 100%;
     background: #F0F1F2;
     border: 1px solid transparent;
     border-radius: 5px;
     outline: none;
-    margin-left: 22px;
     margin-bottom: 10px;
     font-size: 16px;
     line-height: 30px;
@@ -107,10 +117,15 @@ input {
             0 1px 1px rgba(255,255,255,.1);
 }
 .link {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    letter-spacing: .05px;
+}
+.link a{
     cursor: pointer;
-    padding: 3px;
     color: #000000;
-    margin-left: 20px;
+
 }
 .warning {
     color: #861616;

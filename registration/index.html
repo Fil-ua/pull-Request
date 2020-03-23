@@ -6,49 +6,49 @@
     <link rel="stylesheet" href="visual.css">
     <link rel="shortcut icon" href="../src/short_icon.png" type="image/png">
 </head>
-
 <body>
-
-<img class="displayed" src="../src/short_icon.png"/>
 <div class="css-form">
-    <p class="heading-with-line">Форма регистрации</p>
+    <div class="displayed">
+        <img  src="../src/short_icon.png"/>
+    </div>
     <div class="form">
         <form id="form_id" action="" method="post">
+            <p class="heading-with-line">Sign up</p>
             <div class="form-block">
-                <label for="SignupName">Ваше Имя</label>
+                <label for="SignupName">Name</label>
                 <input id="SignupName" type="text" name="sName">
             </div>
             <div class="form-block">
-                <label for="SignupSurname">Ваша Фамилия</label>
+                <label for="SignupSurname">Surname</label>
                 <input id="SignupSurname" type="text" name="sSurname">
             </div>
             <div class="form-block">
-                <label for="SignupBirthday">Дата рождения</label>
+                <label for="SignupBirthday">Your birthday</label>
                 <input id="SignupBirthday" type="date" value="1940-01-01" name="sBirthday">
             </div>
             <div class="form-block">
-                <label for="SignupEmail">Ваш email (логин для входа)</label>
+                <label for="SignupEmail">Email (login)</label>
                 <input id="SignupEmail" type="email"  name="sEmail" placeholder="Пример - user@gmail.com">
-                <p class="validation">Проверьте правильность ввода email.</p>
             </div>
             <div class="form-block">
-                <label for="SignupPassword">Новый пароль</label>
+                <label for="SignupPassword">Password</label>
                 <input id="SignupPassword" type="password" name="sPassword">
-                <p class="requirement">Пароль должен содержать от 6 символов.</p>
+                <p class="requirement">Password must include more then 6 simbols.</p>
             </div>
             <div class="form-block">
-                <label for="SignupConfirmPassword">Подтверждение пароля</label>
+                <label for="SignupConfirmPassword">Repeat password</label>
                 <input id="SignupConfirmPassword" type="password" name="sConfirmPassword">
             </div>
             <div class="warning"></div>
             <div class="form-block">
-                <input class="button" type="submit" value="Зарегистрироваться">
+                <input class="button" type="submit" value="Register">
             </div>
         </form>
     </div>
 </div>
 
 <script src="registration.js"></script>
+
 </body>
 
 </html>

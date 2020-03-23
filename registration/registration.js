@@ -20,18 +20,18 @@ function validate() {
             case `SignupName`:
             case `SignupSurname`:
                 if (!/^([а-яА-ЯA-Za-z]{2,20})+$/.test(values[x])) {
-                    return warning(`Некорректный ввод!`);
+                    return warning(`incorrect input!`);
                 }
                 break;
             case `SignupBirthday`:
                 let year = new Date().getFullYear() - new Date(values[x].replace(/\./g, `:`)).getFullYear();
                 if (!(10 < year && year < 80)) {
-                    return warning(`не младше 10 и не старше 80 лет`);
+                    return warning(`Age must been between 10 and 80 years`);
                 }
                 break;
             case `SignupEmail`:
                 if (!/[0-9a-zа-я_A-ZА-Я]+@[0-9a-zа-я_A-ZА-Я^.]+\.[a-zа-яА-ЯA-Z]{2,4}/i.test(values[x])) {
-                    return warning(`Ошибка ввода Email-адреса!`);
+                    return warning(`incorrect Email address!`);
                 }
                 break;
             case `SignupPassword`:
@@ -41,7 +41,7 @@ function validate() {
                 break;
             case `SignupConfirmPassword`:
                 if (values.SignupPassword !== values[x]) {
-                    return warning(`Пароли не совпадают`);
+                    return warning(`Passwords do not match`);
                 }
                 break;
         }
