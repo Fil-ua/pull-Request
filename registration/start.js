@@ -1,51 +1,70 @@
 document.querySelector(`#form_id`).addEventListener(`submit`, e => {
     e.preventDefault();
-    if(signIn()) {
-        let str = ["spider-top","css-form","spiderNetBotR"];
-        str.map(classes =>  document.querySelector(`.${classes}`).classList.add("hide"));
-        document.querySelector('body').classList.add("strawberry");
+    if (signIn()) {
+        window.location.href = `../articleEditor/article.html`;
     }
     return false;
 });
+console.log(authData);
+
 function signIn() {
+    const form = document.querySelector('form');
+    const authValue = {};
+    const warnings = [...new FormData(form).entries()]
+        .map(node => {
 
-    let names = document.querySelectorAll('#form_id input');
-    const values = {};
+            let [field, value] = node;
 
-    for (let k = 0; k < names.length - 1; k++) {
-        values[names[k].id] = names[k].value;
+            if (field && value) {
+                authValue[field] = value;
+            }
+
+            switch (field) {
+                case `loginEmail`:
+                    if (!authValue[field] || !/[0-9a-zа-я_A-ZА-Я]+@[0-9a-zа-я_A-ZА-Я^.]+\.[a-zа-яА-ЯA-Z]{2,4}/i.test(authValue[field])) {
+                        return "Please type a correct email!";
+                    }
+                    const emailExist = authData.find(x => x.sEmail === authValue[field]);
+                    if (!emailExist) {
+                        return `email doesn't exist`;
+                    }
+                    break;
+                case `loginPassword`:
+                    if (!authValue[field] || !/^([а-яА-ЯA-Za-z0-9]{6,})+$/.test(authValue[field])) {
+                        return "Password must be 6 or more symbols!";
+                    }
+                    break;
+            }
+        }).filter(Boolean);
+
+
+    if (warnings.length) {
+        warning(warnings);
+        return false;
+    } else {
+        authData.find( x => {
+            if (x.sEmail === authValue.loginEmail && x.sPassword === authValue.loginPassword) {
+                x.isLogin = `true`;
+                console.log(authData);
+                localStorage.setItem(`authData`, JSON.stringify(authData));
+                window.location.href = `../articleEditor/article.html`;
+                return true;
+            }else{
+                warnings.push(`Incorrect password`);
+            }
+        })
+
     }
 
-    for (let x in values) {
-        switch (x) {
-            case `SigninEmail`:
-                if (!/[0-9a-zа-я_A-ZА-Я]+@[0-9a-zа-я_A-ZА-Я^.]+\.[a-zа-яА-ЯA-Z]{2,4}/i.test(values[x])) {
-                   return  warning("Please type a correct email!");
-                }
-                break;
-            case `SigninPassword`:
-                if (!/^([а-яА-ЯA-Za-z0-9]{6,})+$/.test(values[x])) {
-                   return  warning("password must include more then 6 simbols!");
-                }
-                break;
-        }
-    }
-
-    let authData = JSON.parse(localStorage.getItem(`authData`));
-    if( values.SigninEmail == authData[1] ) {
-        if (authData[2] == values.SigninPassword) {
-            return true;
-        } else {
-            warning(`Wrong password`);
-        }
-    }else{
-        warning("email doen`t exist in a base");
-    }
-
-        function warning(x) {
-            return !(document.getElementsByClassName(`warning`)[0].textContent = x);
-        };
-    warning(``);
+function warning (messages) {
+    messages = Array.isArray(messages) ? messages : [messages] ;
+    const container = document.getElementsByClassName(`warning`)[0];
+    container.innerHTML = ``;
+        messages.map(message => {
+            let li = document.createElement(`li`);
+            li.appendChild(document.createTextNode(message));
+            container.appendChild(li);
+        })
 
 }
-
+}

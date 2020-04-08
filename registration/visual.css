@@ -6,13 +6,13 @@ html, body, .css-form {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    transition: 2s;
 
 }
 .displayed {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: 2s;
 }
 .displayed > img {
     max-width:150px;
@@ -44,7 +44,7 @@ label {
     font-size: 18px;
     cursor: default;
 }
-@media screen and (min-width: 320px) and (max-width:1080px) {
+@media screen and (min-width: 0px) and (max-width:1080px) {
     body {
         background-image: url(../src/spaceMobile.jpg) ;
         background-repeat: no-repeat;
@@ -59,6 +59,7 @@ label {
 @media screen and (min-width: 1921px) and (max-width:3440px){
     body {
         background-image: url(../src/spaceUWHD.jpg);
+        background-repeat: no-repeat;
     }
 }
 input {
@@ -102,10 +103,23 @@ input {
 .warning {
     color: #861616;
     font-size: 16px;
-    display: flex;
-    justify-content: center;
+    display: block;
     font-weight: bold;
 }
 .validation {
     display: none;
+}
+.loginBtn {
+    margin-top: 4rem;
+    margin-right: 2rem;
+    padding: 1rem;
+    float: right;
+    color: rgb(209,209,217);
+    background: linear-gradient(rgb(76,77,82), rgb(56,57,62)) rgb(76,77,82);
+    box-shadow:
+            0 0 1px rgba(0,0,0,.5) inset,
+            0 2px 3px rgba(0,0,0,.5) inset,
+            0 1px 1px rgba(255,255,255,.1);
+    text-decoration: none;
+    border-radius: 1rem;
 }

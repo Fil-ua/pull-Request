@@ -4,42 +4,47 @@
     <meta charset="UTF-8">
     <title>Registration</title>
     <link rel="stylesheet" href="visual.css">
-    <link rel="shortcut icon" href="../src/short_icon.png" type="image/png">
+    <link rel="shortcut icon" href="../src/short_red_hand.png" type="image/png">
 </head>
 <body>
+<a href="start.html" class="loginBtn">LogIn</a>
 <div class="css-form">
     <div class="displayed">
-        <img  src="../src/short_icon.png"/>
+        <img src="../src/red_hand.png"/>
     </div>
     <div class="form">
         <form id="form_id" action="" method="post">
             <p class="heading-with-line">Sign up</p>
             <div class="form-block">
-                <label for="SignupName">Name</label>
-                <input id="SignupName" type="text" name="sName">
+                <label>Name</label>
+                <input type="text" name="sName">
             </div>
             <div class="form-block">
-                <label for="SignupSurname">Surname</label>
-                <input id="SignupSurname" type="text" name="sSurname">
+                <label>Surname</label>
+                <input type="text" name="sSurname">
             </div>
             <div class="form-block">
-                <label for="SignupBirthday">Your birthday</label>
-                <input id="SignupBirthday" type="date" value="1940-01-01" name="sBirthday">
+                <label>Your birthday</label>
+                <input type="date" value="1940-01-01" name="sBirthday">
             </div>
             <div class="form-block">
-                <label for="SignupEmail">Email (login)</label>
-                <input id="SignupEmail" type="email"  name="sEmail" placeholder="Пример - user@gmail.com">
+                <label>NickName</label>
+                <input type="text" id="SignupNickName" name="sNickName">
             </div>
             <div class="form-block">
-                <label for="SignupPassword">Password</label>
-                <input id="SignupPassword" type="password" name="sPassword">
+                <label>Email (login)</label>
+                <input type="email" name="sEmail" placeholder="Пример - user@gmail.com">
+            </div>
+            <div class="form-block">
+                <label>Password</label>
+                <input type="password" name="sPassword">
                 <p class="requirement">Password must include more then 6 simbols.</p>
             </div>
             <div class="form-block">
-                <label for="SignupConfirmPassword">Repeat password</label>
-                <input id="SignupConfirmPassword" type="password" name="sConfirmPassword">
+                <label>Repeat password</label>
+                <input type="password" name="sConfirmPassword">
             </div>
-            <div class="warning"></div>
+            <ul class="warning"></ul>
             <div class="form-block">
                 <input class="button" type="submit" value="Register">
             </div>

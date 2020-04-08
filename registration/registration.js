@@ -1,55 +1,90 @@
 document.querySelector(`#form_id`).addEventListener(`submit`, e => {
     e.preventDefault();
-    if(validate()) {
+    if (validate()) {
         window.location.href = `start.html`;
     }
     return false;
 });
+const getAuthData = localStorage.getItem(`authData`),
+    authData = getAuthData ? JSON.parse(getAuthData) : [];
+console.log(authData);
 
 function validate() {
 
-    let names = document.querySelectorAll('#form_id input');
-    const values = {};
+    const form = document.querySelector('form');
+    const authValue = {};
 
-    for (let k = 0; k < names.length - 1; k++) {
-        values[names[k].id] = names[k].value;
+    const warnings = [...new FormData(form).entries()]
+        .map(node => {
+
+            let [field, value] = node;
+
+            if (field && value) {
+                authValue[field] = value;
+            }
+
+            switch (field) {
+                case `sName`:
+                case `sSurname`:
+                    if (!authValue[field] || !/^([а-яА-ЯA-Za-z]{2,20})+$/.test(authValue[field])) {
+                        return `incorrect input!`;
+                    }
+                    break;
+                case `sNickName`:
+                    if (!authValue[field] || !/[._0-9-a-zA-Zа-яА-Я]/.test(authValue[field])) {
+                        return `incorrect symbols in nickname`;
+                    }
+                    const uniqueNickName = authData.find(x => x.sNickName === authValue[field]);
+                    if (uniqueNickName) {
+                        return `nickname already occupied`;
+                    }
+                    break;
+                case `sBirthday`:
+                    let year = new Date().getFullYear() - new Date(authValue[field].replace(/\./g, `:`)).getFullYear();
+                    if (!(10 < year && year < 80)) {
+                        return `Age must be between 10 and 80 years`;
+                    }
+                    break;
+                case `sEmail`:
+                    if (!authValue[field] || !/[0-9a-zа-я_A-ZА-Я]+@[0-9a-zа-я_A-ZА-Я^.]+\.[a-zа-яА-ЯA-Z]{2,4}/i.test(authValue[field])) {
+                        return `incorrect Email address!`;
+                    }
+                    const uniqueEmail = authData.find(x => x.sEmail === authValue[field]);
+                    if (uniqueEmail) {
+                        return `email already occupied`;
+                    }
+                    break;
+                case `sPassword`:
+                    if (!authValue[field] || !/^([а-яА-ЯA-Za-z0-9]{6,})+$/.test(authValue[field])) {
+                        return `Invalid Password!`;
+                    }
+                    break;
+                case `sConfirmPassword`:
+                    if (!authValue[field] || authValue.sPassword !== authValue[field]) {
+                        return `Passwords do not match`;
+                    }
+                    break;
+            }
+        }).filter(Boolean);
+
+    if (warnings.length) {
+        warning(warnings);
+        return false;
+    } else {
+        authData.push(authValue);
+        localStorage.setItem(`authData`, JSON.stringify(authData));
+        return true;
     }
 
-    for (let x in values) {
-        switch (x) {
-            case `SignupName`:
-            case `SignupSurname`:
-                if (!/^([а-яА-ЯA-Za-z]{2,20})+$/.test(values[x])) {
-                    return warning(`incorrect input!`);
-                }
-                break;
-            case `SignupBirthday`:
-                let year = new Date().getFullYear() - new Date(values[x].replace(/\./g, `:`)).getFullYear();
-                if (!(10 < year && year < 80)) {
-                    return warning(`Age must been between 10 and 80 years`);
-                }
-                break;
-            case `SignupEmail`:
-                if (!/[0-9a-zа-я_A-ZА-Я]+@[0-9a-zа-я_A-ZА-Я^.]+\.[a-zа-яА-ЯA-Z]{2,4}/i.test(values[x])) {
-                    return warning(`incorrect Email address!`);
-                }
-                break;
-            case `SignupPassword`:
-                if (!/^([а-яА-ЯA-Za-z0-9]{6,})+$/.test(values[x])) {
-                    return warning(`Invalid Password!`);
-                }
-                break;
-            case `SignupConfirmPassword`:
-                if (values.SignupPassword !== values[x]) {
-                    return warning(`Passwords do not match`);
-                }
-                break;
-        }
+    function warning(messages) {
+        const container = document.getElementsByClassName(`warning`)[0];
+        container.innerHTML = ``;
+        messages.map(message => {
+                let li = document.createElement(`li`);
+                li.appendChild(document.createTextNode(message));
+                container.appendChild(li);
+
+        })
     }
-    function warning(x) {
-        return !(document.getElementsByClassName(`warning`)[0].textContent = x);
-    }
-    localStorage.setItem(`authData`, JSON.stringify([values.SignupName, values.SignupEmail, values.SignupPassword]));
-    warning(``);
-    return true;
+
 }

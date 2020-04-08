@@ -40,10 +40,7 @@ body{
     transition: max-width 200ms;
 }
 .spider:active {
-    max-width: 27%;
-}
-.hide {
-    display: none !important;
+    max-width: 20%;
 }
 .css-form {
     display: flex;
@@ -125,12 +122,10 @@ input {
 .link a{
     cursor: pointer;
     color: #000000;
-
 }
 .warning {
     color: #861616;
     font-size: 16px;
-    margin-left: 20px;
+    display: block;
     font-weight: bold;
 }
-

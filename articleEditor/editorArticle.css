@@ -1,0 +1,50 @@
+.page-content-wrapper {
+    display: none;
+    margin: 5rem;
+    opacity: 1;
+}
+body {
+    background-color: rgba(0, 0, 0, 0.03);
+    color: rgb(33, 37, 41);
+}
+
+.show {
+    display: grid;
+}
+#ShowAllArticles , #SearchArticle , .logout{
+    height: 3rem;
+}
+#btn-Search {
+    height: 3rem;
+}
+.hidden {
+    display: none !important;
+}
+.div_img {
+    cursor: pointer;
+}
+.closeContent {
+    width: 2rem;
+    justify-self: end;
+    margin-right: 1rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0;
+    display: block;
+    outline: none;
+    border: none;
+}
+
+.createContent {
+    transition: 0.5s;
+}
+.x {
+    width: 40px;
+    height: 40px;
+}
+.img {
+    width: 2.5rem;
+}
+
+.reloadLocation {
+    cursor: wait;
+}
