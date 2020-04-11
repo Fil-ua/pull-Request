@@ -3,6 +3,7 @@
     margin: 5rem;
     opacity: 1;
 }
+
 body {
     background-color: rgba(0, 0, 0, 0.03);
     color: rgb(33, 37, 41);
@@ -11,18 +12,22 @@ body {
 .show {
     display: grid;
 }
-#ShowAllArticles , #SearchArticle , .logout{
+
+#ShowAllArticles, #SearchArticle, .logout {
     height: 3rem;
 }
+
 #btn-Search {
     height: 3rem;
 }
+
 .hidden {
     display: none !important;
 }
 .div_img {
     cursor: pointer;
 }
+
 .closeContent {
     width: 2rem;
     justify-self: end;
@@ -33,18 +38,55 @@ body {
     outline: none;
     border: none;
 }
+.closeArticles{
+    position: absolute;
+    z-index: 101;
+    margin-left: 80%;
+    margin-top: 2%;
 
+}
+.close , .card-text {
+    cursor: pointer;
+}
 .createContent {
     transition: 0.5s;
 }
+
 .x {
     width: 40px;
     height: 40px;
 }
+
 .img {
     width: 2.5rem;
 }
 
 .reloadLocation {
     cursor: wait;
+}
+
+.headline-status {
+    width: 50%;
+    border-bottom: solid thin;
+}
+
+.alley {
+    max-width: 90%;
+    min-height: 50rem;
+    line-height: normal;
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-bottom: 5%;
+    padding-left: 7%;
+    padding-right: 7%;
+}
+
+.carousel {
+    background: -moz-linear-gradient(45deg, rgba(76, 28, 255, 0.66) 0%, rgba(130,109,237,0.93) 30%, rgba(0,158,150,0.88) 70%, rgba(2,35,181,0.83) 100%); /* ff3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgb(255, 255, 255)), color-stop(30%, rgba(130,109,237,0.93)), color-stop(70%, rgba(0,158,150,0.88)), color-stop(100%, rgba(2,35,181,0.83))); /* safari4+,chrome */
+    background: -webkit-linear-gradient(45deg, rgba(52,21,176,1) 0%, rgba(130,109,237,0.93) 30%, rgba(0,158,150,0.88) 70%, rgba(2,35,181,0.83) 100%); /* safari5.1+,chrome10+ */
+    background: -o-linear-gradient(45deg, rgba(52,21,176,1) 0%, rgba(130,109,237,0.93) 30%, rgba(0,158,150,0.88) 70%, rgba(2,35,181,0.83) 100%); /* opera 11.10+ */
+    background: -ms-linear-gradient(45deg, rgba(52,21,176,1) 0%, rgba(130,109,237,0.93) 30%, rgba(0,158,150,0.88) 70%, rgba(2,35,181,0.83) 100%); /* ie10+ */
+    background: linear-gradient(45deg, rgba(52,21,176,1) 0%, rgba(130,109,237,0.93) 30%, rgba(0,158,150,0.88) 70%, rgba(2,35,181,0.83) 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0223B5', endColorstr='#3415B0',GradientType=1 ); /* ie6-9 */
 }
