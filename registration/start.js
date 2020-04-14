@@ -5,7 +5,6 @@ document.querySelector(`#form_id`).addEventListener(`submit`, e => {
     }
     return false;
 });
-console.log(authData);
 
 function signIn() {
     const form = document.querySelector('form');
@@ -45,7 +44,6 @@ function signIn() {
         authData.find( x => {
             if (x.sEmail === authValue.loginEmail && x.sPassword === authValue.loginPassword) {
                 x.isLogin = `true`;
-                console.log(authData);
                 localStorage.setItem(`authData`, JSON.stringify(authData));
                 window.location.href = `../articleEditor/article.html`;
                 return true;
@@ -58,7 +56,7 @@ function signIn() {
 
 function warning (messages) {
     messages = Array.isArray(messages) ? messages : [messages] ;
-    const container = document.getElementsByClassName(`warning`)[0];
+    const container = document.querySelector(`.warning`);
     container.innerHTML = ``;
         messages.map(message => {
             let li = document.createElement(`li`);

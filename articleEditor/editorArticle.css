@@ -27,7 +27,9 @@ body {
 .div_img {
     cursor: pointer;
 }
-
+.card-footer {
+    min-height: 3.55rem;
+}
 .closeContent {
     width: 2rem;
     justify-self: end;

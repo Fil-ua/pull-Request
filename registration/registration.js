@@ -7,7 +7,6 @@ document.querySelector(`#form_id`).addEventListener(`submit`, e => {
 });
 const getAuthData = localStorage.getItem(`authData`),
     authData = getAuthData ? JSON.parse(getAuthData) : [];
-console.log(authData);
 
 function validate() {
 
@@ -36,22 +35,23 @@ function validate() {
                     }
                     const uniqueNickName = authData.find(x => x.sNickName === authValue[field]);
                     if (uniqueNickName) {
-                        return `nickname already occupied`;
+                        return `nickname already used`;
                     }
                     break;
                 case `sBirthday`:
                     let year = new Date().getFullYear() - new Date(authValue[field].replace(/\./g, `:`)).getFullYear();
-                    if (!(10 < year && year < 80)) {
+                    if (!(10 <= year && year <= 80)) {
                         return `Age must be between 10 and 80 years`;
                     }
                     break;
                 case `sEmail`:
-                    if (!authValue[field] || !/[0-9a-zа-я_A-ZА-Я]+@[0-9a-zа-я_A-ZА-Я^.]+\.[a-zа-яА-ЯA-Z]{2,4}/i.test(authValue[field])) {
+                    if (!authValue[field] || !/[0-9a-zа-я_A-ZА-Я]+@[0-9a-zа-я_A-ZА-Я^.]+\.[a-zа-яА-ЯA-Z]{2,4}/i
+                        .test(authValue[field])) {
                         return `incorrect Email address!`;
                     }
                     const uniqueEmail = authData.find(x => x.sEmail === authValue[field]);
                     if (uniqueEmail) {
-                        return `email already occupied`;
+                        return `Email already used`;
                     }
                     break;
                 case `sPassword`:
@@ -77,7 +77,8 @@ function validate() {
     }
 
     function warning(messages) {
-        const container = document.getElementsByClassName(`warning`)[0];
+        messages = Array.isArray(messages) ? messages : [messages] ;
+        const container = document.querySelector(`.warning`);
         container.innerHTML = ``;
         messages.map(message => {
                 let li = document.createElement(`li`);
