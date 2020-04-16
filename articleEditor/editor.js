@@ -1,9 +1,9 @@
 (function () {
-    window.page_content_wrapper = document.querySelector(`.page-content-wrapper`),
-        articlesCounter = counter(),
-        actionForm = document.querySelector(`[data-action]`);
-    let loginWindow = `../registration/start.html`;
-
+    window.page_content_wrapper = document.querySelector(`.page-content-wrapper`);
+    window.articlesCounter = counter();
+    window.actionForm = document.querySelector(`[data-action]`);
+    window.card = new Card();
+    window.carousel = new Carousel();
     window.articlesFromLS = localStorage.getItem(`Articles`) ?
         JSON.parse(localStorage.getItem(`Articles`)) : [];
 
@@ -13,9 +13,10 @@
         }
     });
 
-    ShowArticles(window.articlesFromLS);
-    CarouselMaket(window.articlesFromLS);
+    window.card.Show(window.articlesFromLS);
+    window.carousel.Create(window.articlesFromLS);
     reattachListeners();
+
 
     ["closeContent", "addContent"].map(x => document.querySelector(`.${x}`)
         .addEventListener(`click`, () => {
@@ -33,12 +34,12 @@
         switch (action) {
             case `save` :
                 scrollTo();
-                createCard(checkValuesArticle());
+                checkValuesArticle();
                 document.getElementById(`SearchArticle`).value = "";
                 localStorage.setItem(`articlesCounter`, articlesCounter());
                 addArticleToStorage(window.valuesChecked);
-                ShowArticles(window.articlesFromLS);
-                CarouselMaket(window.articlesFromLS);
+                window.card.Show(window.articlesFromLS);
+                window.carousel.Create(window.articlesFromLS);
                 CheckIfHiddenCardsContent();
                 reattachListeners();
                 warning("");
@@ -60,8 +61,8 @@
                         if (CheckActiveSearch()) {
                             return;
                         }
-                        ShowArticles(window.articlesFromLS);
-                        CarouselMaket(window.articlesFromLS);
+                        window.card.Show(window.articlesFromLS);
+                        window.carousel.Create(window.articlesFromLS);
                         CheckIfHiddenCardsContent();
                         reattachListeners();
                     }
@@ -75,7 +76,7 @@
 
     document.getElementById(`ShowAllArticles`).addEventListener(`click`, () => {
         document.getElementById(`SearchArticle`).value = "";
-        ShowArticles(window.articlesFromLS);
+        window.card.Show(window.articlesFromLS);
         reattachListeners();
     });
 
@@ -94,29 +95,78 @@
             delete x.isLogin
         });
         localStorage.setItem(`authData`, JSON.stringify(authData));
-        window.location.href = loginWindow;
+        window.location.href = `../registration/start.html`;
     });
 
 })();
-function scrollTo() {
-    document.querySelector("footer").scrollIntoView({
-        behavior: "smooth", block: "end",
-        inline: "nearest"
-    });
-}
-function CheckIfHiddenCardsContent() {
-    const cardsClass = document.querySelector(`.cardsContainer`).classList;
-    if (cardsClass.contains(`hidden`)) {
-        cardsClass.toggle(`hidden`);
+
+function reattachListeners() {
+    let cardsFix = document.querySelectorAll(`[data-fix-id]`);
+    for (let el of cardsFix) {
+        el.addEventListener(`click`, event => {
+            window.id = +event.target.parentNode.parentNode.dataset.fixId;
+            switch (event.target.parentNode.dataset.fix) {
+                case `edit`:
+                    window.card.Edit();
+                    break;
+                case `delete` :
+                    window.card.Delete();
+                    break;
+            }
+        });
     }
+    let cardsDescript = document.querySelectorAll(`[data-article-number`);
+    for (let el of cardsDescript) {
+        el.addEventListener(`click`, window.carousel.ToggleOpen);
+    }
+}
+
+function checkValuesArticle() {
+    window.valuesChecked = {
+        articleName: document.querySelector(`[name="articleName"]`).value,
+        articleDescription: document.querySelector(`[name="articleDescription"]`).value,
+        articleContent: CKEDITOR.instances.articleContent.getData(),
+        articlenickName: nickName,
+        articleLastDate: Date.parse(new Date),
+        articleId: articlesCounter()
+    };
+    window.valuesChecked.articleName = window.valuesChecked.articleName.replace(/\s+/g, ' ').trim();
+    if (!/[._!@0-9-a-zA-Zа-яА-Я]{2,}/.test(window.valuesChecked.articleName)) {
+        warning(`Некорректный ввод! Заполните поле - Название!`);
+    } else if (window.valuesChecked.articleDescription.length > 49) {
+        return window.valuesChecked;
+    } else {
+        warning(`Краткое описание должно содержать от 50 символов!`);
+    }
+}
+
+function inputValues(values) {
+    let ckeditor = CKEDITOR.instances.articleContent,
+        name = document.querySelector(`[name="articleName"]`),
+        description = document.querySelector(`[name="articleDescription"]`);
+    if (values) {
+        ckeditor.setData(values.articleContent);
+        name.value = values.articleName;
+        description.value = values.articleDescription;
+    } else {
+        ckeditor.setData("");
+        name.value = "";
+        description.value = "";
+    }
+}
+
+function addArticleToStorage(article) {
+    window.articlesFromLS.push(article);
+    localStorage.setItem(`Articles`, JSON.stringify(window.articlesFromLS));
+    console.log(window.articlesFromLS);
 }
 
 function SearchArticles() {
     CheckIfHiddenCardsContent();
     let searchArticleName = document.getElementById(`SearchArticle`).value.replace(/\s+/g, ' ').trim();
     if (!searchArticleName || searchArticleName.length < 3) {
-        ShowArticles(window.articlesFromLS);
-        CarouselMaket(window.articlesFromLS);
+        window.card.Show(window.articlesFromLS);
+        window.carousel.Create(window.articlesFromLS);
     } else {
         let filteredArticles = window.articlesFromLS.filter(x => {
             if (x.articleName.toLowerCase().indexOf(searchArticleName.toLowerCase()) != -1) {
@@ -124,8 +174,8 @@ function SearchArticles() {
             }
         });
         if (filteredArticles.length) {
-            ShowArticles(filteredArticles);
-            CarouselMaket(filteredArticles);
+            window.card.Show(filteredArticles);
+            window.carousel.Create(filteredArticles);
         } else {
             document.querySelector(`.cardsContainer`).innerHTML =
                 `По запросу: ${searchArticleName} , ничего не найдено!`;
@@ -143,20 +193,18 @@ function CheckActiveSearch() {
     return false;
 }
 
-function updateDate(date) {
+function CheckIfHiddenCardsContent() {
+    const cardsClass = document.querySelector(`.cardsContainer`).classList;
+    if (cardsClass.contains(`hidden`)) {
+        cardsClass.toggle(`hidden`);
+    }
+}
 
-    let now = new Date();
-
-    let diffMillis = now - date;
-    if (diffMillis < 1000) return "right now";
-    if (diffMillis < 1000 * 60) return `${Math.round((diffMillis / 1000))} sec. ago`;
-    if (diffMillis < 1000 * 60 * 60) return `${Math.round(diffMillis / 1000 / 60)} min. ago`;
-    if (diffMillis < 1000 * 60 * 60 * 24) return `${Math.round(diffMillis / 1000 / 60 / 60)} hour ago`;
-    const twoD = (number) => number.toString().slice(-2).padStart(2, '0');
-    date = new Date(date);
-    return twoD(date.getDate()) + '.' +
-        twoD(date.getMonth() + 1) + '.' +
-        twoD(date.getFullYear());
+function scrollTo() {
+    document.querySelector("footer").scrollIntoView({
+        behavior: "smooth", block: "end",
+        inline: "nearest"
+    });
 }
 
 function warning(message) {
@@ -168,24 +216,47 @@ function counter() {
     return () => count++;
 }
 
-function addArticleToStorage(article) {
+/*function DeleteArticle() {
 
-    window.articlesFromLS.push(article);
-    localStorage.setItem(`Articles`, JSON.stringify(window.articlesFromLS));
-    console.log(window.articlesFromLS);
-}
+    window.articlesFromLS.filter(article => {
+        if (article.articleId === window.id) {
+            let idx = window.articlesFromLS.indexOf(article);
+            if (idx != -1) {
+                window.articlesFromLS.splice(idx, 1);
+                localStorage.setItem(`Articles`, JSON.stringify(window.articlesFromLS));
+                if (CheckActiveSearch()) {
+                    return;
+                }
+                carousel.Create(window.articlesFromLS);
+                window.card.Show(window.articlesFromLS);
+                reattachListeners();
+            }
+        }
+    });
+}*/
 
-function ShowArticles(arrayArticle) {
+/*function EditArticle() {
+
+    window.actionForm.setAttribute(`data-action`, `edit`);
+    window.page_content_wrapper.classList.add(`show`);
+    window.articlesFromLS.filter(article => {
+        if (article.articleId === window.id) {
+            scrollTo();
+            inputValues(article);
+        }
+    });
+}*/
+
+/*function ShowArticles(arrayArticle) {
     document.querySelector(`.cardsContainer`).innerHTML = "";
-
     for (let i = 0; i < arrayArticle.length; i++) {
         createCard(arrayArticle[i]);
         document.querySelectorAll(`.cardsContainer .card-text`)[i]
             .setAttribute(`data-article-number`, `${i}`);
     }
-}
+}*/
 
-function createCard(values) {
+/*function createCard(values) {
 
     let newCard = document.querySelector(`.card.hidden`).cloneNode(true);
     let newCardEvent = document.querySelector(`.cardEvent.hidden`).cloneNode(true);
@@ -202,31 +273,9 @@ function createCard(values) {
 
     [newCard, newCardEvent].forEach(x => x.classList.remove(`hidden`));
     document.querySelector(`.cardsContainer`).appendChild(newCard);
-}
+}*/
 
-function checkValuesArticle() {
-
-    window.valuesChecked = {
-        articleName: document.querySelector(`[name="articleName"]`).value,
-        articleDescription: document.querySelector(`[name="articleDescription"]`).value,
-        articleContent: CKEDITOR.instances.articleContent.getData(),
-        articlenickName: nickName,
-        articleLastDate: Date.parse(new Date),
-        articleId: articlesCounter()
-    };
-
-    window.valuesChecked.articleName = window.valuesChecked.articleName.replace(/\s+/g, ' ').trim();
-
-    if (!/[._!@0-9-a-zA-Zа-яА-Я]{2,}/.test(window.valuesChecked.articleName)) {
-        warning(`Некорректный ввод! Заполните поле - Название!`);
-    } else if (window.valuesChecked.articleDescription.length > 49) {
-        return window.valuesChecked;
-    } else {
-        warning(`Краткое описание должно содержать от 50 символов!`);
-    }
-}
-
-function CarouselMaket(array_articles) {
+/*function CarouselMaket(array_articles) {
 
     document.querySelector(`.carousel-indicators`).innerHTML = "";
     document.querySelector(`.carousel-inner`).innerHTML = "";
@@ -240,7 +289,7 @@ function CarouselMaket(array_articles) {
         let carouselItem = document.querySelector(`.carousel-item`).cloneNode(true);
         carouselItem.querySelector(`.carousel-name`).innerHTML = array_articles[el].articleName;
         carouselItem.querySelector(`.carousel-nickName`).innerHTML = array_articles[el].articlenickName;
-        carouselItem.querySelector(`.carousel-date`).innerHTML = updateDate(array_articles[el].articleLastDate);
+        carouselItem.querySelector(`.carousel-date`).innerHTML = card.updateDate(array_articles[el].articleLastDate);
         carouselItem.querySelector(`.alley`).insertAdjacentHTML(`beforeend`, array_articles[el].articleContent);
 
         document.querySelector(`.carousel-inner`).appendChild(carouselItem);
@@ -266,83 +315,13 @@ function CarouselMaket(array_articles) {
         if (document.getElementById(`SearchArticle`).value.replace(/\s+/g, ' ').trim()) {
             return;
         }
-        ShowArticles(window.articlesFromLS);
+        card.Show(window.articlesFromLS);
         reattachListeners();
 
     });
-}
+}*/
 
-function inputValues(values) {
-
-    let ckeditor = CKEDITOR.instances.articleContent,
-        name = document.querySelector(`[name="articleName"]`),
-        description = document.querySelector(`[name="articleDescription"]`);
-    if (values) {
-
-        ckeditor.setData(values.articleContent);
-        name.value = values.articleName;
-        description.value = values.articleDescription;
-    } else {
-        ckeditor.setData("");
-        name.value = "";
-        description.value = "";
-    }
-}
-
-function EditArticle() {
-
-    window.actionForm.setAttribute(`data-action`, `edit`);
-    window.page_content_wrapper.classList.add(`show`);
-    window.articlesFromLS.filter(article => {
-        if (article.articleId === window.id) {
-            scrollTo();
-            inputValues(article);
-        }
-    });
-}
-
-function DeleteArticle() {
-
-    window.articlesFromLS.filter(article => {
-        if (article.articleId === window.id) {
-            let idx = window.articlesFromLS.indexOf(article);
-            if (idx != -1) {
-                window.articlesFromLS.splice(idx, 1);
-                localStorage.setItem(`Articles`, JSON.stringify(window.articlesFromLS));
-                if (CheckActiveSearch()) {
-                    return;
-                }
-                CarouselMaket(window.articlesFromLS);
-                ShowArticles(window.articlesFromLS);
-                reattachListeners();
-            }
-        }
-    });
-}
-
-function reattachListeners() {
-
-    let cardsFix = document.querySelectorAll(`[data-fix-id]`);
-    for (let card of cardsFix) {
-        card.addEventListener(`click`, event => {
-            window.id = +event.target.parentNode.parentNode.dataset.fixId;
-            switch (event.target.parentNode.dataset.fix) {
-                case `edit`:
-                    EditArticle();
-                    break;
-                case `delete` :
-                    DeleteArticle();
-                    break;
-            }
-        });
-    }
-    let cardsDescript = document.querySelectorAll(`[data-article-number`);
-    for (let card of cardsDescript) {
-        card.addEventListener(`click`, CarouselShowHide);
-    }
-}
-
-function CarouselShowHide(event) {
+/*function CarouselShowHide(event) {
 
     event = +event.target.dataset.articleNumber;
 
@@ -351,6 +330,20 @@ function CarouselShowHide(event) {
         document.querySelectorAll(`.carousel-inner .carousel-item`)[event]]
         .map(x => x.classList.toggle(`active`));
 
-}
+}*/
 
+/*function updateDate(date) {
 
+    let now = new Date();
+
+    let diffMillis = now - date;
+    if (diffMillis < 1000) return "right now";
+    if (diffMillis < 1000 * 60) return `${Math.round((diffMillis / 1000))} sec. ago`;
+    if (diffMillis < 1000 * 60 * 60) return `${Math.round(diffMillis / 1000 / 60)} min. ago`;
+    if (diffMillis < 1000 * 60 * 60 * 24) return `${Math.round(diffMillis / 1000 / 60 / 60)} hour ago`;
+    const twoD = (number) => number.toString().slice(-2).padStart(2, '0');
+    date = new Date(date);
+    return twoD(date.getDate()) + '.' +
+        twoD(date.getMonth() + 1) + '.' +
+        twoD(date.getFullYear());
+}*/
