@@ -20,12 +20,9 @@
     ["closeContent", "addContent"].map(x => document.querySelector(`.${x}`)
         .addEventListener(`click`, () => {
             inputValues();
-            ["show"].map(v => window.page_content_wrapper.classList.toggle(v));
+            window.page_content_wrapper.classList.toggle("show");
             setTimeout(() => {
-                document.querySelector("footer").scrollIntoView({
-                    behavior: "smooth", block: "end",
-                    inline: "nearest"
-                });
+                scrollTo();
             }, 10);
             window.actionForm.setAttribute(`data-action`, `save`);
 
@@ -35,10 +32,7 @@
         let action = window.actionForm.getAttribute(`data-action`);
         switch (action) {
             case `save` :
-                document.querySelector("footer").scrollIntoView({
-                    behavior: "smooth", block: "end",
-                    inline: "nearest"
-                });
+                scrollTo();
                 createCard(checkValuesArticle());
                 document.getElementById(`SearchArticle`).value = "";
                 localStorage.setItem(`articlesCounter`, articlesCounter());
@@ -64,9 +58,8 @@
                         window.page_content_wrapper.classList.toggle(`show`);
                         window.actionForm.setAttribute(`data-action`, `save`);
                         if (CheckActiveSearch()) {
-                            return
+                            return;
                         }
-                        ;
                         ShowArticles(window.articlesFromLS);
                         CarouselMaket(window.articlesFromLS);
                         CheckIfHiddenCardsContent();
@@ -96,7 +89,7 @@
     });
 
     document.querySelector(`.logout`).addEventListener(`click`, () => {
-        document.getElementById(`staticBackdrop`).modal();
+        document.getElementById(`logout`).modal();
         authData.find(x => {
             delete x.isLogin
         });
@@ -105,9 +98,14 @@
     });
 
 })();
-
+function scrollTo() {
+    document.querySelector("footer").scrollIntoView({
+        behavior: "smooth", block: "end",
+        inline: "nearest"
+    });
+}
 function CheckIfHiddenCardsContent() {
-    const cardsClass = document.getElementsByClassName(`cardsContainer`)[0].classList;
+    const cardsClass = document.querySelector(`.cardsContainer`).classList;
     if (cardsClass.contains(`hidden`)) {
         cardsClass.toggle(`hidden`);
     }
@@ -162,7 +160,7 @@ function updateDate(date) {
 }
 
 function warning(message) {
-    document.getElementsByClassName(`warning`)[0].innerHTML = message;
+    document.querySelector(`.warning`).innerHTML = message;
 }
 
 function counter() {
@@ -182,7 +180,7 @@ function ShowArticles(arrayArticle) {
 
     for (let i = 0; i < arrayArticle.length; i++) {
         createCard(arrayArticle[i]);
-        document.querySelector(`.cardsContainer`).querySelectorAll(`.card-text`)[i]
+        document.querySelectorAll(`.cardsContainer .card-text`)[i]
             .setAttribute(`data-article-number`, `${i}`);
     }
 }
@@ -209,8 +207,8 @@ function createCard(values) {
 function checkValuesArticle() {
 
     window.valuesChecked = {
-        articleName: document.querySelector(`[name = "articleName"]`).value,
-        articleDescription: document.querySelector(`[name = "articleDescription"]`).value,
+        articleName: document.querySelector(`[name="articleName"]`).value,
+        articleDescription: document.querySelector(`[name="articleDescription"]`).value,
         articleContent: CKEDITOR.instances.articleContent.getData(),
         articlenickName: nickName,
         articleLastDate: Date.parse(new Date),
@@ -277,8 +275,8 @@ function CarouselMaket(array_articles) {
 function inputValues(values) {
 
     let ckeditor = CKEDITOR.instances.articleContent,
-        name = document.querySelector(`[name = "articleName"]`),
-        description = document.querySelector(`[name = "articleDescription"]`);
+        name = document.querySelector(`[name="articleName"]`),
+        description = document.querySelector(`[name="articleDescription"]`);
     if (values) {
 
         ckeditor.setData(values.articleContent);
@@ -297,10 +295,7 @@ function EditArticle() {
     window.page_content_wrapper.classList.add(`show`);
     window.articlesFromLS.filter(article => {
         if (article.articleId === window.id) {
-            document.querySelector("footer").scrollIntoView({
-                behavior: "smooth", block: "end",
-                inline: "nearest"
-            });
+            scrollTo();
             inputValues(article);
         }
     });
@@ -350,10 +345,12 @@ function reattachListeners() {
 function CarouselShowHide(event) {
 
     event = +event.target.dataset.articleNumber;
+
     document.querySelector(`.cardsContainer`).classList.toggle(`hidden`);
-    [document.querySelector(`.carousel-indicators`).querySelectorAll(`[data-target]`)[event],
-        document.querySelector(`.carousel-inner`).getElementsByClassName(`carousel-item`)[event]]
+    [document.querySelectorAll(`.carousel-indicators [data-target]`)[event],
+        document.querySelectorAll(`.carousel-inner .carousel-item`)[event]]
         .map(x => x.classList.toggle(`active`));
+
 }
 
 
