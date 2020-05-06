@@ -213,13 +213,11 @@ function SearchArticles() {
                 return x;
             }
         });
-        console.log(filteredArticles);
         if (filteredArticles.length) {
             Paggination(filteredArticles);
         } else {
             document.querySelector(`.cardsContainer`).innerHTML =
                 `По запросу: ${searchArticleName} , ничего не найдено!`;
-
         }
     }
 }
