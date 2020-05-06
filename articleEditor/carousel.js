@@ -32,9 +32,6 @@ function Carousel() {
             if (document.getElementById(`SearchArticle`).value.replace(/\s+/g, ' ').trim()) {
                 return;
             }
-            window.card.Show(window.articlesFromLS);
-            reattachListeners();
-
         });
     };
 

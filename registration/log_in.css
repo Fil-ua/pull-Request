@@ -1,4 +1,4 @@
-html, body, .css-form {
+html, body, .css-form-authorization , .css-form-registration , #main , .sidebar {
     height: 100%;
 }
 @media screen and (min-width: 320px) and (max-width:1080px) {
@@ -23,26 +23,11 @@ body{
     transition: 2s;
     overflow: hidden;
 }
-.form-block label {
-    display: flex;
-    font-size: 20px;
-    justify-content: left;
+label {
+    font-size: 18px;
+    cursor: default;
 }
-.strawberry{
-    height: 100vh;
-    background-image: url(../src/strawberry.jpg);
-}
-.spider {
-    position: absolute;
-    height: auto;
-    max-width: 40%;
-    transform: scaleX(-1);
-    transition: max-width 200ms;
-}
-.spider:active {
-    max-width: 20%;
-}
-.css-form {
+.css-form-authorization , .css-form-registration {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,13 +38,11 @@ body{
     align-items: center;
     justify-content: center;
     transition: 2s;
-}
-.displayed {
     max-width:150px;
     height: auto;
 }
 .form-block {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .heading-with-line {
     display: flex;
@@ -68,11 +51,17 @@ body{
     border-bottom: 1px solid #EBE7E1;
     font-size: 20px;
 }
-.form {
+.form-authorization, .form-registration {
     text-align: left;
     padding: 10px 25px;
     border-radius: 25px;
     background-color: rgba(255, 255, 255, .8);
+}
+.requirement {
+    font-size: 14px;
+    letter-spacing: 0.25px;
+    margin: 0;
+    opacity: .8;
 }
 input {
     width: 100%;
@@ -80,7 +69,7 @@ input {
     border: 1px solid transparent;
     border-radius: 5px;
     outline: none;
-    margin-bottom: 10px;
+    margin-bottom: .5rem;
     font-size: 16px;
     line-height: 30px;
     color: #2B2F33;
@@ -123,9 +112,51 @@ input {
     cursor: pointer;
     color: #000000;
 }
-.warning {
+.warnings_authorization , .warnings_registration {
     color: #861616;
     font-size: 16px;
     display: block;
     font-weight: bold;
+}
+.sidebar {
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+.sidebar .closebtn {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    display: block;
+    transition: 0.3s;
+    color: #f1f1f1;
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+}
+.openbtn:hover {
+    background-color: #444;
+}
+#main {
+    transition: margin-left .5s;
+}
+.show-sidebar {
+    width: 27rem;
+}
+.main-left {
+    margin-left: 27rem;
 }

@@ -1,7 +1,7 @@
-html, body, .css-form {
+html, body, .css-form-registration {
     height: 100%;
 }
-.css-form {
+.css-form-registration {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,8 +13,6 @@ html, body, .css-form {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-}
-.displayed > img {
     max-width:150px;
     height: auto;
 }
@@ -28,7 +26,7 @@ html, body, .css-form {
     border-bottom: 1px solid #EBE7E1;
     font-size: 20px;
 }
-.form {
+.form-registration {
     text-align: left;
     padding: 10px 25px;
     border-radius: 25px;
@@ -100,7 +98,7 @@ input {
             0 2px 3px rgba(0,0,0,.5) inset,
             0 1px 1px rgba(255,255,255,.1);
 }
-.warning {
+.warnings_registration {
     color: #861616;
     font-size: 16px;
     display: block;

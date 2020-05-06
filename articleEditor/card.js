@@ -1,3 +1,4 @@
+
 function Card () {
 
     this.Show = function(arrayArticle) {
@@ -16,8 +17,8 @@ function Card () {
         newCard.querySelector(`.badge`).innerHTML = values.articlenickName;
         newCard.querySelector(`.card-text`).innerHTML = values.articleDescription;
         newCard.querySelector(`.text-muted`).innerHTML = "Last updated " + this.updateDate(values.articleLastDate);
-
-        if (values.articlenickName === window.nickName) {
+        //if from localStorage use window.nickName
+        if (values.articlenickName === userName) {
             newCardEvent.setAttribute(`data-fix-id`, `${values.articleId}`);
             newCard.querySelector(`.card-footer`).appendChild(newCardEvent);
         }
@@ -39,33 +40,19 @@ function Card () {
             twoD(date.getFullYear());
     };
 
-    this.Delete = function() {
-        window.articlesFromLS.filter(article => {
-            if (article.articleId === window.id) {
-                let idx = window.articlesFromLS.indexOf(article);
-                if (idx != -1) {
-                    window.articlesFromLS.splice(idx, 1);
-                    localStorage.setItem(`Articles`, JSON.stringify(window.articlesFromLS));
-                    if (CheckActiveSearch()) {
-                        return;
-                    }
-                    carousel.Create(window.articlesFromLS);
-                    this.Show(window.articlesFromLS);
-                    reattachListeners();
-                }
-            }
-        });
+    this.Delete = function(username) {
+        firebase.database().ref(`articles/${username}`).child(`article-${window.idArticle}`).remove();
     };
 
     this.Edit = function() {
-        window.actionForm.setAttribute(`data-action`, `edit`);
-        window.page_content_wrapper.classList.add(`show`);
-        window.articlesFromLS.filter(article => {
-            if (article.articleId === window.id) {
+        actionForm.setAttribute(`data-action`, `edit`);
+        page_content_wrapper.classList.add(`show`);
+        articlesFromFB.filter(article => {
+            if (article.articleId === window.idArticle) {
                 scrollTo();
                 inputValues(article);
             }
         });
-    }
+    };
 }
 

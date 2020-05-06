@@ -6,12 +6,6 @@
     <link rel="stylesheet" href="editorArticle.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script type="text/javascript">
-        const authData = JSON.parse(localStorage.getItem(`authData`));
-        if (!authData.find(x => x.isLogin)) {
-            window.location.href = `../registration/start.html`;
-        }
-    </script>
 </head>
 <body class="bg-light">
 <!--Card-->
@@ -49,56 +43,53 @@
 <!-- Modal -->
 <div class="modal fade" id="logout" data-backdrop="static" tabindex="-1" role="dialog"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Выйти</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                    <span aria-hidden="true">&times;</span></button>
             </div>
-
             <div class="modal-body">
                 Вы действительно хотите выйти?
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
-                <button type="button" class="btn btn-primary">Да</button>
+                <button type="button" class="btn btn-primary" id="btnConfirm">Да</button>
             </div>
         </div>
     </div>
 </div>
-
-
 <nav class="navbar navbar-expand-lg mb-4 navbar-dark bg-dark sticky-top font-weight-bold">
     <a class="navbar-brand">
         <img src="../src/short_hello.png" class="img reloadLocation" alt="Reload page"/>
     </a>
     <a class="nav-link nav-item addContent" href="#">Добавить запись <img src="../src/plus3.png"/></a>
-    </button>
-    <form class="form-inline  mx-auto my-2 my-lg-0">
+    <form class="form-inline mx-auto my-2 my-lg-0">
         <button id="ShowAllArticles" class="btn btn-outline-success font-weight-bold pt-0 pr-2 pl-2 mr-2"
-                type="button">Показать<br> все записи
-        </button>
+                type="button">Показать<br> все записи</button>
         <input id="SearchArticle" maxlength="17" class="form-control" type="text" placeholder="Что искать?"
                aria-label="Search">
     </form>
     <button type="button" class="btn btn-dark font-weight-bold logout" data-toggle="modal" data-target="#logout">Выйти
     </button>
 </nav>
-<div class="cardsContainer update 1 row mx-3">
-
+<div class="articlesOnPage bg-secondary text-white form-inline mb-4">
+    записей на странице<select class="ml-1 mr-2 dropdown-toggle btn-dark cke_dark_background rounded ">
+        <option>6</option>
+        <option selected='selected'>9</option>
+        <option>12</option>
+        <option>16</option>
+        <option>24</option>
+    </select>
+    <input type="button" class="btn btn-secondary mr-3 shadow-none" value="Применить">
 </div>
-
+<div class="cardsContainer update 1 row mx-3">
+</div>
 <div id="sliderFade" class="carousel  slide" data-ride="carousel" data-interval="false">
     <ol class="carousel-indicators">
-
     </ol>
     <div class="carousel-inner">
-
-
     </div>
     <a class="carousel-control-prev" href="#sliderFade" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -109,12 +100,13 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-
-
+<div aria-label="Page navigation" class="bg-secondary mt-3 h-2">
+    <ul class="pagination pb-2 pt-2">
+    </ul>
+</div>
 <form data-action="save" class="page-content-wrapper bg-dark rounded">
     <button type="button" class="close closeContent" aria-label="Close">
-        <img src="../src/close.png" alt="" class="img">
-    </button>
+        <img src="../src/close.png" alt="" class="img"></button>
     <label class="text-center text-light font-weight-bold mb-1 ml-2">Название: *
     </label>
     <input type="text" class="border-dark m-auto w-25 mb-4 ml-2 rounded" name="articleName"
@@ -128,11 +120,11 @@
         <textarea rows="10" class="ckeditor" maxlength="150" name="articleContent"></textarea>
     </div>
     <button type="button" class="btn text-white btn-outline-success border-success mr-auto ml-auto mb-2 pt-1 pb-1
-            font-weight-bold w-25 rounded" id="createContent">Создать
-    </button>
+            font-weight-bold w-25 rounded" id="createContent">Создать</button>
 </form>
-
 <footer>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
     <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
             integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -143,10 +135,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
-
     <script src="card.js"></script>
     <script src="carousel.js"></script>
     <script src="editor.js"></script>
 </footer>
 </body>
 </html>
+
