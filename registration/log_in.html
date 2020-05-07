@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in</title>
+    <link rel="stylesheet" href="log_in.css">
+    <link rel="shortcut icon" href="../src/short_hello.png" type="image/png">
+    <script type="text/javascript">
+        if(localStorage.getItem(`authData`)) {
+            const authData = JSON.parse(localStorage.getItem(`authData`)) || [];
+            if (authData.find(x => x.isLogin)) {
+                window.location.href = `../articleEditor/article.html`;
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div id="mySidebar" class="sidebar">
+    <a href="#" class="closebtn">×</a>
+    <div class="css-form-registration">
+        <img class="displayed" src="../src/mid_red_hand.png"/>
+        <div class="form-registration">
+            <form id="form_registration" action="" method="post">
+                <p class="heading-with-line">Sign up</p>
+                <div class="form-block">
+                    <label>Name</label>
+                    <input type="text" name="name" maxlength="30">
+                </div>
+                <div class="form-block">
+                    <label>Surname</label>
+                    <input type="text" name="surname" maxlength="30">
+                </div>
+                <div class="form-block">
+                    <label>Your birthday</label>
+                    <input type="date" value="1940-01-01" name="birthday">
+                </div>
+                <div class="form-block">
+                    <label>NickName</label>
+                    <input type="text" id="SignupNickName" name="nickName" maxlength="30">
+                </div>
+                <div class="form-block">
+                    <label>Email (login)</label>
+                    <input type="email" name="email" placeholder="Пример - user@gmail.com" maxlength="40">
+                </div>
+                <div class="form-block">
+                    <label>Password</label>
+                    <input type="password" name="password" maxlength="30">
+                    <p class="requirement">Password must include more then 6 simbols.</p>
+                </div>
+                <div class="form-block">
+                    <label>Repeat password</label>
+                    <input type="password" name="confirmPassword" maxlength="30">
+                </div>
+                <ul class="warnings_registration"></ul>
+                <div class="form-block">
+                    <input class="button" type="submit" value="Register">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="main">
+<div class="css-form-authorization">
+    <img class="displayed" src="../src/short_hello.png"/>
+    <div class="form-authorization">
+        <p class="heading-with-line">Please sign in using the form below</p>
+        <form id="form_authorization">
+            <div class="form-block">
+                <label>Login</label>
+                <input type="email" name="loginEmail" placeholder="user@gmail.com">
+            </div>
+            <div class="form-block">
+                <label>Password</label>
+                <input type="password" name="loginPassword">
+            </div>
+            <ul class="warnings_authorization"></ul>
+            <input class="button" type="submit" value="Sign in">
+            <div class="link">
+                <a href="#">Create a new account?</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
+<script src="log_in.js"></script>
+<script src="sign_up.js"></script>
+</body>
+</html>

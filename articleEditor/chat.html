@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBiMmzvgrIFjFcyEf3mfiBXIvJ76dfmKO0",
+        authDomain: "test-project-handwritter.firebaseapp.com",
+        databaseURL: "https://test-project-handwritter.firebaseio.com",
+        projectId: "test-project-handwritter",
+        storageBucket: "test-project-handwritter.appspot.com",
+        messagingSenderId: "291127579673",
+        appId: "1:291127579673:web:bc20bef2adec88b5fe8688"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    let name = prompt("Enter your name");
+    function Messanger() {
+        let message = document.getElementById("message").value;
+
+        firebase.database().ref("messages").push().set({
+            "sender": name,
+            "message": message
+        });
+        return false;
+    }
+
+    firebase.database().ref("messages").on('child_added', snapshot => {
+        let html="";
+        html += "<li id ='message-" + snapshot.key + "'>";
+        console.log(snapshot);
+        console.log(snapshot.val());
+        if(snapshot.val().sender == name){
+           html += "<button data-id='" + snapshot.key+"' onclick='deleteMessage(this);'>";
+            console.log(snapshot.key);
+           html += "Delete";
+           html += "</button>";
+        }
+        html += snapshot.val().sender + ":" + snapshot.val().message;
+        html += "</li>";
+
+        document.getElementById("messages").innerHTML += html;
+    });
+    function deleteMessage(self) {
+        let messageId = self.getAttribute("data-id");
+        firebase.database().ref("messages").child(messageId).remove();
+    }
+        firebase.database().ref("messages").on("child_removed", snapshot => {
+            document.getElementById("message-"+ snapshot.key).innerHTML = "This message has been deleted";
+        });
+
+</script>
+<form onsubmit="return Messanger();">
+    <input placeholder="Enter message" id="message" autocomplete="off">
+    <input type="submit">
+</form>
+<ul id="messages"></ul>
+</body>
+</html>

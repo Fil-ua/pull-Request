@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="sign_up.css">
+    <link rel="shortcut icon" href="../src/short_red_hand.png" type="image/png">
+</head>
+<body>
+<a href="log_in.html" class="loginBtn">LogIn</a>
+<div class="css-form-registration">
+    <img class="displayed" src="../src/mid_red_hand.png"/>
+    <div class="form-registration">
+        <form id="form_registration" action="" method="post">
+            <p class="heading-with-line">Sign up</p>
+            <div class="form-block">
+                <label>Name</label>
+                <input type="text" name="name" maxlength="30">
+            </div>
+            <div class="form-block">
+                <label>Surname</label>
+                <input type="text" name="surname" maxlength="30">
+            </div>
+            <div class="form-block">
+                <label>Your birthday</label>
+                <input type="date" value="1940-01-01" name="birthday">
+            </div>
+            <div class="form-block">
+                <label>NickName</label>
+                <input type="text" id="SignupNickName" maxlength="30" name="nickName">
+            </div>
+            <div class="form-block">
+                <label>Email (login)</label>
+                <input type="email" name="email" placeholder="Пример - user@gmail.com" maxlength="40">
+            </div>
+            <div class="form-block">
+                <label>Password</label>
+                <input type="password" name="password" maxlength="30">
+                <p class="requirement">Password must include more then 6 simbols.</p>
+            </div>
+            <div class="form-block">
+                <label>Repeat password</label>
+                <input type="password" name="confirmPassword" maxlength="30">
+            </div>
+            <ul class="warnings_registration"></ul>
+            <div class="form-block">
+                <input class="button" type="submit" value="Register">
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
+<script src="sign_up.js"></script>
+
+</body>
+
+</html>
